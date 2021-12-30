@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stopwatch</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    
+    <div class="box">
+        <h1 class="stopwatch">00:00:00:000</h1>
+        <div class="buttons">
+            <button class="start">start</button>
+            <button class="pause">pause</button>
+            <button class="reset">reset</button>
+            <button class="lapBtn">Lap</button>
+        </div>
+        <h1>Laps:</h1>
+
+        <div id="laps">
+            <ul id="lapRecord"></ul>
+        </div>
+    </div>
+    </div>
+    <script>
+        let h = 0;
+        let m = 0;
+        let s = 0;
+        let ms = 0;
+        let x;
+        let hours;
+        let minuets;
+        let sec;
+        let msec;
+        let stopwatch = document.querySelector('.stopwatch');
+        let lapBtn = document.querySelector('.lapBtn');
+        let lapRecord = document.querySelector('#lapRecord')
+        lapBtn.addEventListener('click', lap);
+        document.querySelector('.start').addEventListener('click', function () {
+            x = setInterval(startcount, 10);
+
+        });
+        document.querySelector('.pause').addEventListener('click', function () {
+            clearInterval(x);
+        });
+        document.querySelector('.reset').addEventListener('click', function () {
+            clearInterval(x);
+            h = 0;
+            m = 0;
+            s = 0;
+            ms = 0;
+            stopwatch.innerHTML = '00:00:00:000';
+            lapRecord.innerHTML='';
+        })
+        function startcount() {
+            ms += 10;
+            if (ms == 1000) {
+                ms = 0;
+                s++
+                if (s == 60) {
+                    s = 0;
+                    m++
+                    if (m == 60) {
+                        m = 0;
+                        h++
+                    }
+                }
+            }
+            let hours = h < 10 ? "0" + h : h;
+            let minuets = m < 10 ? "0" + m : m;
+            let sec = s < 10 ? "0" + s : s;
+            let msec = ms < 10 ? "0" + ms : ms < 100 ? "0" + ms : ms;
+            stopwatch.innerHTML = `${hours} : ${minuets} : ${sec} : ${msec}`
+        }
+
+        function lap() {
+            let hours = h < 10 ? "0" + h : h;
+            let minuets = m < 10 ? "0" + m : m;
+            let sec = s < 10 ? "0" + s : s;
+            let msec = ms < 10 ? "0" + ms : ms < 100 ? "0" + ms : ms;
+            let lapNow = `<li>${hours} : ${minuets} : ${sec} : ${msec}</li>`;
+            lapRecord.innerHTML += lapNow;
+            
+
+        }
+    </script>
+</body>
+
+</html>
